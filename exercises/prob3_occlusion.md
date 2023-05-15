@@ -1,6 +1,6 @@
 # Problem 3: Dealing with occlusion
 
-So far, the path of the ball has been fully observable. 
+So far, the path of the ball has been fully observable. Let's check out some cases where the ball moves under an occluder. And maybe something happens. Check out the observations below, along with `path3b` through `path3e`. Then think about what parts of the model need to change to account for this occlusion
 
 ```javascript
 var world = ballworld.worlds['occluded']
@@ -8,6 +8,14 @@ var obs = ballworld.paths['path3a']
 
 ballworld.animateObservation(obs, world)
 ```
+
+...
+
+...
+
+...
+
+
 
 
 <details><summary>Click to reveal the code</summary>
