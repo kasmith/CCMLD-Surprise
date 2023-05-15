@@ -111,6 +111,4 @@ var post = Infer({method: "MCMC", samples: 10000}, model)
 viz(post)
 ```
 
-Thought problems:
-
-* We set the speed as a range between -100 and 100... but we know the ball is moving to the right (in a positive direction). Why not set it to be 0 to 100 instead?
+If you're getting a posterior of the velocity focused around 80, you're doing this right and can move on to the next problem!
