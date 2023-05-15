@@ -88,6 +88,16 @@ Your first task is to fix up this code so that it explains the strange trajector
 1) Let's assume that only one change can ever occur within a scenario. We will store the time that change happens in the variable `changeTime`
 2) We want to know what the new velocity of the ball is -- we can store the x and y velocities in `vel_x` and `vel_y`
 
-In case you're stuck, some hints are below:
+You can explore what your model thinks is happening for each path by commenting out the original return statement and the `viz.marginals(post)` call, and uncommenting the `return path` line as well as the final `ballworld.animateByPath` call. This will pull a random path from the model's posterior and animate it. Note that even though it's a random sample, it can only pick one at a time -- you'll need to rerun the model to get a new sample.
 
-* <details><summary>Setting the velocity</summary>Remember how you set `vel_x` in the last problem? Wouldn't it work for x and y here?</details>
+In case you're stuck, some hints can be found by clicking below:
+
+<details><summary>Setting the velocity</summary>Remember how you set `vel_x` in the last problem? Wouldn't it work for x and y here?</details>
+
+<details><summary>Setting the changeTime</summary>In theory, a change could happen at any physics step. The maximum number of steps is already set to the variable nsteps, so you just need to pick a time index</details>
+
+<details><summary>Defining the change function</summary>The only change you need to care about is a change in velocity. And you used a function to do that in the last exercise...</details>
+
+<details><summary>Setting the doChange switch</summary>You already should have set the timestep when the change function should be applied in the changeTime variable, and internal to the doStep function the current timestep is stored in the stepn variable</details>
+
+If your model is correct, you should find that most of your posterior belief is centered around `changeTime` being close to 20, and the new velocity being close to `[60, 40]`. 
