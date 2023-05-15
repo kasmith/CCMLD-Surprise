@@ -9,8 +9,9 @@ var obs = ballworld.paths['path3a']
 ballworld.animateObservation(obs, world)
 ```
 
-```
+
 <details><summary>Click to reveal the code</summary>
+```javascript
 var nearestUnobservedPoint = function(pt) {
   var redOcc = [occluder[0] + ballRadius,
                 occluder[1] + ballRadius,
@@ -23,5 +24,5 @@ var nearestUnobservedPoint = function(pt) {
               pt[1] > redOcc[3] ? redOcc[3] : pt[1]
   return [nearx, neary]
 }
-</details>
 ```
+</details>
