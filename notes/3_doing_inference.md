@@ -98,6 +98,45 @@ var dist = Infer(options, flippingAway)
 viz(dist)
 ```
 
+## Conditioning on (observing) continuous values
+
+There's a slight wrinkle to the way we condition when we're dealing with continuous distributions. If we're asking what's the chance that two coins come up heads, you can say `condition(flip() + flip() === 2)` because there is a `0.5 * 0.5 = 0.25` chance that the exact equality will occur. But what if you wanted to know what is the probability that a draw from a standard normal distribution will end up as exactly 2? The probability of getting any number precisely on the dot from a continuous distribution is zero -- so if we try to use `condition` in cases like this our model will fail.
+
+Try the code below -- it's trying to estimate the mean of a Gaussian distribution with standard deviation 1 when we've gotten the draws 3 and 1 from that distribution. Note that you won't get any input beyond the model failing to initialize.
+
+```javascript
+var badConditioning = function() {
+	// Don't know the mean
+	var mu = gaussian(0, 5)
+	// We see observations of 3 and 1
+	condition(gaussian(mu, 1) === 3)
+	condition(gaussian(mu, 1) === 1)
+	// What's the mean?
+	return mu
+}
+var post = Infer({method: 'MCMC', kernel: 'MH', samples: 1000}, badConditioning)
+viz(post)
+```
+
+Instead, when we have observations pulled from a continuous distribution we need to use the `observe` function. This function takes two arguments: a proper distribution, and the observed draw. Try running the following code and notice it gives you a well formed posterior around 2:
+
+```javascript
+var observing = function() {
+	// Don't know the mean
+	var mu = gaussian(0, 5)
+	// We see observations of 3 and 1
+	observe(Gaussian({mu: mu, sigma: 1}), 3)
+	observe(Gaussian({mu: mu, sigma: 1}), 1)
+	// What's the mean?
+	return mu
+}
+var post = Infer({method: 'MCMC', kernel: 'MH', samples: 1000}, observing)
+viz(post)
+```
+
+Note that the distribution here is upper case (Gaussian vs gaussian), and we need to pass arguments in by dictionary. The rule is that the upper case variants of distributions are actual distributions, while the lower case variants give you a random draw from that distribution. The `observe` function needs to know about the distribution as a whole, not just a single draw, so we need to use the upper case form here.
+
+
 ## Practice
 
 ### Inference in the tug of war model
