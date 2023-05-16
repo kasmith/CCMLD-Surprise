@@ -107,7 +107,7 @@ var model = function() {
 }
 
 // Run inference and observe the posterior velocity
-var post = Infer({method: "MCMC", samples: 10000}, model)
+var post = Infer({method: "MCMC", kernel: "MH", samples: 10000}, model)
 viz(post)
 ```
 

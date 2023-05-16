@@ -7,8 +7,8 @@ var VELOCITY_RANGE = [-100, 100]
 
 var model = function() {
     // Add noise to the x-velocity of the ball
-    var newvel = uniform(VELOCITY_RANGE[0], VELOCITY_RANGE[1])
-    var velworld = ballworld.setVelocity(world, [newvel, 0])
+    var vel_x = uniform(VELOCITY_RANGE[0], VELOCITY_RANGE[1])
+    var velworld = ballworld.setVelocity(world, [vel_x, 0])
 
     // Simulate the ball's path recursively
     var run = function(steps, initworld) {
@@ -33,11 +33,11 @@ var model = function() {
         observe(Gaussian({mu: expectedPos[0], sigma: VIZ_NOISE}), obspx)
         observe(Gaussian({mu: expectedPos[1], sigma: VIZ_NOISE}), obspy)
     }
-    var conditioning = map2(observationNoise, path, obs)
+    map2(observationNoise, path, obs)
     
-    return newvel
+    return vel_x
 }
 
 // Run inference and observe the posterior velocity
-var post = Infer({method: "MCMC", samples: 10000}, model)
+var post = Infer({method: "MCMC", kernel: "MH", samples: 10000}, model)
 viz(post)

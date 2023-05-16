@@ -104,7 +104,7 @@ var model = function() {
 }
 
 // Run inference and parse out / display the posteriors
-var post = Infer({method: "MCMC", samples: 10000}, model)
+var post = Infer({method: "MCMC", kernel: "MH", samples: 10000}, model)
 viz.marginals(post)
 
 // Comment out the viz.marginals call and uncomment below once `return path` is uncommented
